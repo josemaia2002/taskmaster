@@ -13,7 +13,7 @@ Este é um projeto full stack para gerenciamento de tarefas, onde cada usuário 
 ---
 
 ## 📂 Estrutura inicial do projeto
-
+```
 meu-projeto/
 ├─ backend/
 │  ├─ src/
@@ -32,7 +32,7 @@ meu-projeto/
 │  └─ vite.config.js
 ├─ .gitignore
 └─ README.md
-
+```
 
 ---
 
