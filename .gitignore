@@ -1,0 +1,27 @@
+# Node modules e builds
+**/node_modules/
+**/build/
+**/dist/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de ambiente
+**/.env*
+
+# Cobertura de testes
+**/coverage/
+*.lcov
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Arquivos temporários
+*.tmp
+*.temp
