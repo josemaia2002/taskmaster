@@ -120,3 +120,17 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+/**
+ * Retrieves the profile information of the currently authenticated user.
+ * This is a protected route and requires a valid JWT to be passed in the Authorization header.
+ * The `authMiddleware` must be used on the route that calls this controller.
+ */
+exports.getProfile = async (req, res) => {
+    // The `req.user` object is attached to the request by the `authMiddleware` after it
+    // successfully verifies the JWT. It contains the token's payload (e.g., userId, email).
+    res.status(200).json({
+        message: "Você está acessando uma rota protegida!",
+        user: req.user
+    });
+};
