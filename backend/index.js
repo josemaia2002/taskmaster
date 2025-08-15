@@ -18,6 +18,7 @@ const port = process.env.PORT || 5000;
 
 // Import route modules. This helps in organizing the application's endpoints.
 const authRoutes = require('./src/routes/authRoutes');
+const taskRoutes = require('./src/routes/taskRoutes');
 
 // --- MIDDLEWARE SETUP ---
 // Middleware are functions that execute during the request-response cycle.
@@ -43,6 +44,10 @@ app.get('/', (req, res) => {
 // All routes defined in authRoutes will be prefixed with '/api/auth'.
 // For example, a '/login' route in authRoutes becomes '/api/auth/login'.
 app.use('/api/auth', authRoutes);
+
+// Mount the tasks routes.
+// All routes defined in taskRoutes will be prefixed with '/api/tasks'.
+app.use('/api/tasks', taskRoutes);
 
 // --- SERVER STARTUP ---
 // Start the server and make it listen for incoming requests on the specified port.
