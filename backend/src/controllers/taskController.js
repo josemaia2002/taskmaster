@@ -130,3 +130,40 @@ exports.updateTask = async (req, res) => {
       res.status(500).json({ error: "Could not update the task." });
     }
   };
+
+/**
+ * Deletes a task for the authenticated user.
+ * It ensures that a user can only delete tasks that they own.
+ */
+exports.deleteTask = async (req, res) => {
+    try {
+      // 1. GET IDENTIFIERS: Extract the task ID from the URL and the user ID from the token.
+      const taskId = parseInt(req.params.id);
+      const userId = req.user.userId;
+  
+      // 2. DELETE TASK IN DB: Use a compound `where` clause to delete the task.
+      // This is the same critical security check as in the update function.
+      // The operation will only succeed if a task with the given `id` exists AND
+      // its `userId` matches the ID of the authenticated user.
+      const result = await prisma.task.deleteMany({
+        where: {
+          id: taskId,
+          userId: userId, 
+        },
+      });
+  
+      // 3. CHECK IF DELETE OCCURRED: `deleteMany` returns a count of deleted records.
+      // If the count is 0, the task was not found or the user did not have permission.
+      if (result.count === 0) {
+        return res.status(404).json({ error: "Task not found or you are not authorized to delete it." });
+      }
+      
+      // 4. RESPOND: Send a 204 No Content status. This is the standard HTTP response
+      // for a successful request that doesn't need to send back a message body.
+      res.status(204).send();
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Could not delete the task." });
+    }
+  };

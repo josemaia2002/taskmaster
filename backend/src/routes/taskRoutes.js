@@ -20,30 +20,31 @@ const router = express.Router();
 // Route to create a new task.
 // METHOD: POST
 // PATH: /
-// Example URL: POST /api/tasks/ (assuming it's mounted with this prefix in index.js)
-// This is a protected route. The `authMiddleware` will first verify the user's JWT.
-// If authentication is successful, control is passed to `taskController.createTask`
-// which will handle the logic of creating the task for the authenticated user.
+// Example URL: POST /api/tasks/
 router.post('/', authMiddleware, taskController.createTask);
 
 // Route to get all tasks for the authenticated user.
 // METHOD: GET
 // PATH: /
 // Example URL: GET /api/tasks/
-// Like the creation route, this is protected. The `authMiddleware` runs first to ensure
-// the user is logged in. Then, `taskController.getTasks` will fetch only the tasks
-// that belong to that specific user.
 router.get('/', authMiddleware, taskController.getTasks);
 
 // Route to update an existing task.
 // METHOD: PUT
-// PATH: /tasks/:id
-// Example URL: PUT /api/tasks/123e4567-e89b-12d3-a456-426614174000
-// The `:id` in the path is a URL parameter representing the unique ID of the task to be updated.
-// The `authMiddleware` ensures the user is logged in. The `taskController.updateTask`
-// will then need to perform an additional check to ensure the authenticated user
-// is the actual owner of the task before applying any changes.
+// PATH: /:id
+// Example URL: PUT /api/tasks/123
+// The `:id` is a URL parameter for the task's unique ID. The controller
+// must verify that the authenticated user is the owner of this task.
 router.put('/:id', authMiddleware, taskController.updateTask);
+
+// Route to delete a task.
+// METHOD: DELETE
+// PATH: /:id
+// Example URL: DELETE /api/tasks/123
+// This route also uses a URL parameter (`:id`) to identify which task to delete.
+// The `authMiddleware` confirms the user is logged in, and the `taskController.deleteTask`
+// will confirm the user owns the task before deleting it from the database.
+router.delete('/:id', authMiddleware, taskController.deleteTask);
 
 
 // --- EXPORT ---
