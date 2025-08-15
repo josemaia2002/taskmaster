@@ -1,3 +1,5 @@
+// taskRoute.js
+
 // --- IMPORTS ---
 // Import the Express module to create the router.
 const express = require('express');
@@ -33,8 +35,17 @@ router.post('/', authMiddleware, taskController.createTask);
 // that belong to that specific user.
 router.get('/', authMiddleware, taskController.getTasks);
 
+// Route to update an existing task.
+// METHOD: PUT
+// PATH: /tasks/:id
+// Example URL: PUT /api/tasks/123e4567-e89b-12d3-a456-426614174000
+// The `:id` in the path is a URL parameter representing the unique ID of the task to be updated.
+// The `authMiddleware` ensures the user is logged in. The `taskController.updateTask`
+// will then need to perform an additional check to ensure the authenticated user
+// is the actual owner of the task before applying any changes.
+router.put('/:id', authMiddleware, taskController.updateTask);
+
 
 // --- EXPORT ---
 // Export the router so it can be mounted in the main application file (index.js).
 module.exports = router;
-
