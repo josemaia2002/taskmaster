@@ -24,7 +24,17 @@ const router = express.Router();
 // which will handle the logic of creating the task for the authenticated user.
 router.post('/', authMiddleware, taskController.createTask);
 
+// Route to get all tasks for the authenticated user.
+// METHOD: GET
+// PATH: /
+// Example URL: GET /api/tasks/
+// Like the creation route, this is protected. The `authMiddleware` runs first to ensure
+// the user is logged in. Then, `taskController.getTasks` will fetch only the tasks
+// that belong to that specific user.
+router.get('/', authMiddleware, taskController.getTasks);
+
 
 // --- EXPORT ---
 // Export the router so it can be mounted in the main application file (index.js).
 module.exports = router;
+
