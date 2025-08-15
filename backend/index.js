@@ -16,6 +16,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send('API working');
 });
+
   
 // Start the server
 app.listen(port, () => {
