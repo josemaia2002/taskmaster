@@ -16,16 +16,22 @@ datasource db {
 
 model User {
   id          Int       @id @default(autoincrement())
-  name        String?
+  name        String
   email       String    @unique
-  password    String?
+  password    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+
   tasks       Task[]
 }
 
 model Task {
   id          Int       @id @default(autoincrement())
-  title       String?
+  title       String
   completed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+
   userId      Int
-  user        User @relation(fields: [userId], references:[id])
+  user        User      @relation(fields: [userId], references:[id])
 }
