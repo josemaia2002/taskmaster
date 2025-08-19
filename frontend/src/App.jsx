@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import TasksPage from './pages/TasksPage';
+import PrivateRoute from './components/PrivateRoute';
 
 // Componente simples para a página inicial
 function HomePage() {
@@ -19,10 +20,20 @@ function HomePage() {
 function App() {
   return (
     <Routes>
+      {/* Rotas Públicas */}
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/tasks" element={<TasksPage />} />
+
+      {/* Rotas Privadas */}
+      <Route
+        path="/tasks"
+        element={
+          <PrivateRoute>
+            <TasksPage />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }
