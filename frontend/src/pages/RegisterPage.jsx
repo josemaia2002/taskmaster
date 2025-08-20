@@ -1,70 +1,93 @@
+// --- IMPORTS ---
+// Import the `useState` hook from React to manage the component's state (form fields, errors).
 import { useState } from 'react';
+// Import the `useNavigate` hook from react-router-dom to programmatically redirect the user after registration.
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Renders the registration page component.
+ * It includes a form for new users to create an account,
+ * handles the API request for registration, and provides user feedback.
+ */
 export default function RegisterPage() {
-  // 1. ESTADO PARA OS CAMPOS DO FORMULÁRIO
-  // Usamos useState para criar variáveis que guardam os valores dos inputs.
+  // --- STATE MANAGEMENT ---
+  // `useState` hooks to store the values of the name, email, and password fields.
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null); // Estado para guardar mensagens de erro
+  // State to hold and display any error messages that occur during the registration attempt.
+  const [error, setError] = useState(null);
 
-  // O hook useNavigate nos permite redirecionar o usuário
+  // The `useNavigate` hook provides a function to programmatically change routes.
   const navigate = useNavigate();
 
-  // 2. FUNÇÃO DE SUBMISSÃO
+  /**
+   * Handles the form submission event when the user clicks the "Registrar" button.
+   * @param {Event} e - The form submission event.
+   */
   const handleSubmit = async (e) => {
-    // Previne o comportamento padrão do formulário, que é recarregar a página.
+    // Prevent the browser's default behavior of reloading the page on form submission.
     e.preventDefault();
-    setError(null); // Limpa erros anteriores
+    // Clear any previous error messages before making a new API request.
+    setError(null);
 
     try {
-      // 3. CHAMADA À API USANDO FETCH
+      // --- API CALL ---
+      // Send a POST request to the backend's registration endpoint.
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
+          // Tell the server that the request body is in JSON format.
           'Content-Type': 'application/json',
         },
+        // Convert the user's input (from the state) into a JSON string for the request body.
         body: JSON.stringify({ name, email, password }),
       });
 
+      // Parse the JSON response from the server.
       const data = await response.json();
 
+      // If the response status is not successful (e.g., 409 Conflict, 400 Bad Request),
+      // throw an error to be caught by the `catch` block.
       if (!response.ok) {
-        // Se a resposta não for bem-sucedida, lança um erro com a mensagem do backend.
-        // O `data.error` vem do `res.json({ error: '...' })` no seu backend.
-        throw new Error(data.error || 'Falha ao registrar');
+        // The `data.error` message comes directly from the backend API's error response.
+        throw new Error(data.error || 'Failed to register');
       }
 
-      // Se o registro for bem-sucedido:
-      alert('Registro realizado com sucesso! Você será redirecionado para o login.');
-      navigate('/login'); // Redireciona para a página de login
+      // --- REGISTRATION SUCCESS ---
+      // If the registration is successful, inform the user and redirect them.
+      alert('Registration successful! You will be redirected to the login page.');
+      // Programmatically navigate the user to the '/login' page so they can sign in.
+      navigate('/login');
 
     } catch (err) {
-      // Captura qualquer erro (de rede ou da API) e o exibe para o usuário
-      console.error(err);
+      // If any error occurs (network issue, server error),
+      // update the error state to display a message to the user.
       setError(err.message);
     }
   };
 
+  // --- JSX RENDER ---
+  // The UI of the registration form.
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center">Criar Conta</h2>
         
-        {/* Exibe a mensagem de erro, se houver */}
+        {/* Conditionally render the error message only if the `error` state is not null. */}
         {error && <p className="text-red-500 text-center">{error}</p>}
         
-        {/* 4. CONECTANDO ESTADO E SUBMISSÃO AO JSX */}
+        {/* Link the form's `onSubmit` event to our `handleSubmit` function. */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium">Nome</label>
+            {/* This is a "controlled component": its value is directly tied to the React state (`name`). */}
             <input
               type="text"
-              value={name} // O valor do input é controlado pelo estado
-              onChange={(e) => setName(e.target.value)} // Atualiza o estado a cada digitação
+              value={name}
+              // The `onChange` event handler updates the state on every keystroke.
+              onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md"
-              placeholder="Seu Nome"
               required
             />
           </div>
@@ -75,7 +98,6 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md"
-              placeholder="voce@email.com"
               required
             />
           </div>
@@ -86,7 +108,6 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md"
-              placeholder="********"
               required
             />
           </div>

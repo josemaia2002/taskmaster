@@ -1,19 +1,27 @@
-# Lista de Tarefas Colaborativa
+# TaskMaster - Gerenciador de Tarefas Colaborativo
 
-Este é um projeto full stack para gerenciamento de tarefas, onde cada usuário pode criar uma conta, fazer login e gerenciar suas próprias tarefas.
+![Badge de Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
+Um gerenciador de tarefas full-stack construído com Node.js no backend e React no frontend. Permite que usuários se cadastrem, façam login e gerenciem suas próprias listas de tarefas de forma segura.
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+Este projeto foi construído utilizando as seguintes tecnologias:
+
+| Categoria | Tecnologia |
+|-----------|------------|
+| **Backend** | Node.js, Express, Prisma, SQLite |
+| **Frontend**| React, Vite, Tailwind CSS |
+| **Autenticação** | JWT (JSON Web Tokens), bcrypt |
 
 ---
 
-## 🛠 Tecnologias
-
-- **Backend:** Node.js, Express, PostgreSQL, Prisma
-- **Frontend:** React + Vite, Tailwind CSS
-- **Autenticação:** JWT, Bcrypt
-
----
 
 ## 📂 Estrutura inicial do projeto
 
+```
 meu-projeto/
 ├─ backend/
 │  ├─ src/
@@ -32,14 +40,70 @@ meu-projeto/
 │  └─ vite.config.js
 ├─ .gitignore
 └─ README.md
+```
+---
 
+## 📋 Pré-requisitos
+
+Antes de começar, você vai precisar ter instalado em sua máquina:
+* [Node.js](https://nodejs.org/en/) (que já vem com o npm)
+* [Git](https://git-scm.com/)
 
 ---
 
-## ⚡ Próximas etapas
+## ⚙️ Começando: Instalação e Execução
 
-- Configuração do backend (Node.js, Express, Prisma)
-- Implementação de autenticação (registro e login)
-- CRUD de tarefas
-- Criação da interface em React
-- Deploy do backend e frontend
+Siga os passos abaixo para rodar o projeto localmente.
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://SEU_LINK_DO_REPOSITORIO_AQUI
+    cd nome-do-projeto
+    ```
+
+2.  **Configuração do Backend:**
+    ```bash
+    # Navegue até a pasta do backend
+    cd backend
+
+    # Instale as dependências
+    npm install
+
+    # Crie um arquivo .env a partir do exemplo
+    cp .env.example .env
+    ```
+    > ⚠️ **Importante:** Abra o arquivo `.env` recém-criado e substitua o valor de `JWT_SECRET` por uma chave secreta de sua preferência.
+
+    ```bash
+    # Rode as migrações do banco de dados para criar as tabelas
+    npx prisma migrate dev
+
+    # Inicie o servidor do backend
+    node index.js
+    ```
+    > O backend estará rodando em `http://localhost:5000`.
+
+3.  **Configuração do Frontend:**
+    > Abra um **novo terminal** para rodar o frontend.
+    ```bash
+    # Navegue até a pasta do frontend
+    cd frontend
+
+    # Instale as dependências
+    npm install
+
+    # Inicie o servidor de desenvolvimento
+    npm run dev
+    ```
+    > A aplicação estará disponível em `http://localhost:5173` (ou a porta indicada no terminal).
+
+---
+
+## ✨ Funcionalidades
+
+* ✅ Autenticação de usuários com JWT (Registro e Login).
+* ✅ Criação, Leitura, Atualização e Deleção (CRUD) de tarefas.
+* ✅ Cada usuário só pode acessar suas próprias tarefas.
+* ✅ Interface responsiva com tema claro e escuro (Dark Mode).
+
+*(Seção para screenshots e links de deploy virá a seguir)*
