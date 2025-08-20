@@ -106,4 +106,34 @@ Siga os passos abaixo para rodar o projeto localmente.
 * ✅ Cada usuário só pode acessar suas próprias tarefas.
 * ✅ Interface responsiva com tema claro e escuro (Dark Mode).
 
-*(Seção para screenshots e links de deploy virá a seguir)*
+
+## 📸 Screenshots
+
+Aqui estão algumas telas que demonstram a aplicação em funcionamento.
+
+*(Cole aqui o código Markdown das suas imagens)*
+
+**Exemplo:**
+![Tela de Cadastro](<img width="1583" height="750" alt="Image" src="https://github.com/user-attachments/assets/b4b21f8b-9476-43d8-946e-62380d96ab77" />)
+*Tela de registro de novo usário.*
+
+![Tela de Login](<img width="1600" height="780" alt="Image" src="https://github.com/user-attachments/assets/4bc3a9b9-4f5f-4feb-a839-a52d96f139ee" />)
+*Tela de autenticação.*
+
+![Tela de Tarefas](<img width="1600" height="781" alt="Image" src="https://github.com/user-attachments/assets/fc5210ec-f29a-43b1-b552-bf02c3d0a641" />)
+*Visão principal do gerenciador de tarefas.*
+
+![Tela de Tarefas Dark Mode](<img width="1600" height="780" alt="Image" src="https://github.com/user-attachments/assets/ab3a46ad-1d8b-459e-9a96-745779235172" />)
+*Visão principal do gerenciador de tarefas no modo escuro.*
+
+![Tela de Tarefas Mobile](<img width="586" height="684" alt="Image" src="https://github.com/user-attachments/assets/10050b7a-ee31-4610-a21a-70e1b81624f6" />)
+*Visão principal do gerenciador de tarefas em aparelho móvel.*
+
+---
+
+## 🔗 Deploy
+
+O projeto será hospedado e estará disponível para acesso público em breve.
+
+* **Frontend (Vercel):** `(Link virá aqui)`
+* **Backend (Render):** `(Link virá aqui)`
