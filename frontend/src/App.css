@@ -1,0 +1,68 @@
+/* --- Root Container --- */
+/* Styles for the main application container, identified by the ID 'root'. */
+#root {
+  /* Sets a maximum width to prevent the layout from becoming too wide on large screens. */
+  max-width: 1280px;
+  /* Centers the container horizontally on the page. */
+  margin: 0 auto;
+  /* Adds space inside the container. */
+  padding: 2rem;
+  /* Centers the text content within the container. */
+  text-align: center;
+}
+
+/* --- Logo Styling --- */
+/* General styles for elements with the 'logo' class. */
+.logo {
+  /* Sets a fixed height for the logo. */
+  height: 6em;
+  /* Adds space around the logo. */
+  padding: 1.5em;
+  /* Informs the browser that the 'filter' property will change, allowing for optimization. */
+  will-change: filter;
+  /* Adds a smooth transition effect when the filter property changes. */
+  transition: filter 300ms;
+}
+/* Applies a glow effect when the mouse hovers over any logo. */
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+/* Applies a specific React-blue glow effect when hovering over a logo that also has the 'react' class. */
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+/* --- Keyframe Animation --- */
+/* Defines a reusable animation named 'logo-spin'. */
+@keyframes logo-spin {
+  /* The starting point of the animation. */
+  from {
+    transform: rotate(0deg);
+  }
+  /* The ending point of the animation, completing a full circle. */
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Accessibility --- */
+/* A media query that applies styles only if the user has NOT requested reduced motion in their system settings. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Selects a logo inside the second link (<a>) on the page and applies the animation. */
+  a:nth-of-type(2) .logo {
+    /* Applies the 'logo-spin' animation, making it run infinitely for 20 seconds per rotation in a linear fashion. */
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* --- Card Styling --- */
+/* Simple padding for elements with the 'card' class. */
+.card {
+  padding: 2em;
+}
+
+/* --- Helper Class --- */
+/* A utility class for styling a specific text element. */
+.read-the-docs {
+  color: #888;
+}
