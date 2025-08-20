@@ -66,7 +66,7 @@ export default function TasksPage() {
   if (error) return <div className="p-8 text-center text-red-500">Erro: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4 sm:p-8 max-w-2xl">
+    <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Minhas Tarefas</h1>
       
       {/* Formulário para adicionar nova tarefa */}

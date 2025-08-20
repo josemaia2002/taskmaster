@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import TasksPage from './pages/TasksPage';
 import PrivateRoute from './components/PrivateRoute';
+import Layout from './components/Layout';
 
 // Componente simples para a página inicial
 function HomePage() {
@@ -30,7 +31,9 @@ function App() {
         path="/tasks"
         element={
           <PrivateRoute>
-            <TasksPage />
+            <Layout>
+              <TasksPage />
+            </Layout>
           </PrivateRoute>
         }
       />
