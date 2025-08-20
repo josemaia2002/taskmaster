@@ -11,6 +11,7 @@ yarn-error.log*
 
 # Arquivos de ambiente
 **/.env*
+!.env.example
 
 # Cobertura de testes
 **/coverage/
