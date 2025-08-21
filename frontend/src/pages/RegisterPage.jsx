@@ -4,6 +4,8 @@ import { useState } from 'react';
 // Import the `useNavigate` hook from react-router-dom to programmatically redirect the user after registration.
 import { useNavigate } from 'react-router-dom';
 
+import { registerUser } from '../services/api';
+
 /**
  * Renders the registration page component.
  * It includes a form for new users to create an account,
@@ -26,43 +28,16 @@ export default function RegisterPage() {
    * @param {Event} e - The form submission event.
    */
   const handleSubmit = async (e) => {
-    // Prevent the browser's default behavior of reloading the page on form submission.
     e.preventDefault();
-    // Clear any previous error messages before making a new API request.
     setError(null);
-
+  
     try {
-      // --- API CALL ---
-      // Send a POST request to the backend's registration endpoint.
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          // Tell the server that the request body is in JSON format.
-          'Content-Type': 'application/json',
-        },
-        // Convert the user's input (from the state) into a JSON string for the request body.
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      // Parse the JSON response from the server.
-      const data = await response.json();
-
-      // If the response status is not successful (e.g., 409 Conflict, 400 Bad Request),
-      // throw an error to be caught by the `catch` block.
-      if (!response.ok) {
-        // The `data.error` message comes directly from the backend API's error response.
-        throw new Error(data.error || 'Failed to register');
-      }
-
-      // --- REGISTRATION SUCCESS ---
-      // If the registration is successful, inform the user and redirect them.
+      await registerUser({ name, email, password });
+      
       alert('Registration successful! You will be redirected to the login page.');
-      // Programmatically navigate the user to the '/login' page so they can sign in.
       navigate('/login');
-
+  
     } catch (err) {
-      // If any error occurs (network issue, server error),
-      // update the error state to display a message to the user.
       setError(err.message);
     }
   };

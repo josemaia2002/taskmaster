@@ -4,6 +4,8 @@ import { useState } from 'react';
 // Import the `useNavigate` hook from react-router-dom to programmatically redirect the user after login.
 import { useNavigate } from 'react-router-dom';
 
+import { loginUser } from '../services/api';
+
 /**
  * Renders the login page component.
  * It includes a form for users to enter their email and password,
@@ -25,44 +27,18 @@ export default function LoginPage() {
    * @param {Event} e - The form submission event.
    */
   const handleSubmit = async (e) => {
-    // Prevent the default browser action of reloading the page on form submission.
     e.preventDefault();
-    // Clear any previous error messages before making a new request.
     setError(null);
-
+  
     try {
-      // --- API CALL ---
-      // Send a POST request to the backend's login endpoint.
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          // Tell the server we are sending data in JSON format.
-          'Content-Type': 'application/json',
-        },
-        // Convert the email and password from the state into a JSON string for the request body.
-        body: JSON.stringify({ email, password }),
-      });
-
-      // Parse the JSON response from the server.
-      const data = await response.json();
-
-      // If the response status is not successful (e.g., 401, 404), throw an error.
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
-      }
-
-      // --- LOGIN SUCCESS ---
-      // If the login is successful, the server sends back a token.
-      // We store this token in `localStorage`. `localStorage` is a storage area in the browser
-      // that persists data even after the browser tab is closed. This keeps the user logged in.
+      // Chama a função centralizada do serviço
+      const data = await loginUser({ email, password });
+      
       localStorage.setItem('token', data.token);
-
-      // Programmatically redirect the user to the '/tasks' page.
+      alert('Login bem-sucedido!');
       navigate('/tasks');
-
+  
     } catch (err) {
-      // If any part of the `try` block fails (network error, server error),
-      // catch the error and update the state to display it to the user.
       setError(err.message);
     }
   };
