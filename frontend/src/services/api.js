@@ -1,5 +1,5 @@
 // The base URL for all API requests. This makes it easy to change the API endpoint in one place.
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 /**
  * A helper function to retrieve the authentication token from local storage.
