@@ -4,6 +4,7 @@ import { useState } from 'react';
 // Import the `useNavigate` hook from react-router-dom to programmatically redirect the user after registration.
 import { useNavigate } from 'react-router-dom';
 
+// Import the specific API service function for user registration.
 import { registerUser } from '../services/api';
 
 /**
@@ -28,16 +29,24 @@ export default function RegisterPage() {
    * @param {Event} e - The form submission event.
    */
   const handleSubmit = async (e) => {
+    // Prevent the browser's default behavior of reloading the page on form submission.
     e.preventDefault();
+    // Clear any previous error messages before making a new API request.
     setError(null);
   
     try {
+      // Call the `registerUser` function from the API service, passing the user's data.
+      // This abstracts away the `fetch` logic into a reusable service.
       await registerUser({ name, email, password });
       
+      // If the registration is successful, inform the user and redirect them.
       alert('Registration successful! You will be redirected to the login page.');
+      // Programmatically navigate the user to the '/login' page so they can sign in.
       navigate('/login');
   
     } catch (err) {
+      // If the `registerUser` function throws an error, catch it and update the state
+      // to display the error message to the user.
       setError(err.message);
     }
   };

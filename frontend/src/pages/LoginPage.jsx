@@ -4,6 +4,7 @@ import { useState } from 'react';
 // Import the `useNavigate` hook from react-router-dom to programmatically redirect the user after login.
 import { useNavigate } from 'react-router-dom';
 
+// Import the specific API service function for user login.
 import { loginUser } from '../services/api';
 
 /**
@@ -27,18 +28,26 @@ export default function LoginPage() {
    * @param {Event} e - The form submission event.
    */
   const handleSubmit = async (e) => {
+    // Prevent the default browser action of reloading the page on form submission.
     e.preventDefault();
+    // Clear any previous error messages before making a new request.
     setError(null);
   
     try {
-      // Chama a função centralizada do serviço
+      // Call the `loginUser` function from the API service, passing the user's credentials.
+      // This abstracts the `fetch` logic into a reusable service function.
       const data = await loginUser({ email, password });
       
+      // --- LOGIN SUCCESS ---
+      // If login is successful, store the returned token in localStorage to maintain the session.
       localStorage.setItem('token', data.token);
-      alert('Login bem-sucedido!');
+      
+      // Redirect the user to the protected '/tasks' page.
       navigate('/tasks');
   
     } catch (err) {
+      // If the `loginUser` function throws an error (e.g., wrong credentials),
+      // catch it and update the state to display the error message.
       setError(err.message);
     }
   };

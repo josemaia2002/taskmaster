@@ -1,4 +1,5 @@
-// The base URL for all API requests. This makes it easy to change the API endpoint in one place.
+// The base URL for all API requests, configured to use an environment variable
+// for production and a fallback for local development.
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 /**
@@ -8,17 +9,14 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
  * @throws {Error} If no token is found in local storage.
  */
 const getToken = () => {
-  // Retrieve the token that was saved during the login process.
   const token = localStorage.getItem('token');
   if (!token) {
-    // If no token exists, the user is not authenticated. Throw an error
-    // to prevent making an unauthenticated request.
     throw new Error('No token found.');
   }
   return token;
 };
 
-// --- CRUD Functions ---
+// --- Task CRUD Functions (Authenticated) ---
 
 /**
  * Fetches all tasks for the authenticated user.
@@ -26,36 +24,28 @@ const getToken = () => {
  */
 export const getTasks = async () => {
   const token = getToken();
-  // Make a GET request to the /tasks endpoint.
   const response = await fetch(`${API_URL}/tasks`, {
     headers: {
-      // The Authorization header is required to prove the user's identity.
-      // The 'Bearer' scheme is a standard way to send JWTs.
       'Authorization': `Bearer ${token}`,
     },
   });
-  // If the server responds with an error status (e.g., 401, 500), throw an error.
   if (!response.ok) throw new Error('Failed to fetch tasks.');
-  // Parse the JSON response body and return the data.
   return response.json();
 };
 
 /**
- * Creates a new task.
+ * Creates a new task for the authenticated user.
  * @param {string} title - The title of the new task.
  * @returns {Promise<object>} A promise that resolves to the newly created task object.
  */
 export const createTask = async (title) => {
   const token = getToken();
-  // Make a POST request to create a new resource.
   const response = await fetch(`${API_URL}/tasks`, {
     method: 'POST',
     headers: {
-      // 'Content-Type' tells the server that we are sending data in JSON format.
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
-    // The `body` contains the data for the new task, converted to a JSON string.
     body: JSON.stringify({ title }),
   });
   if (!response.ok) throw new Error('Failed to create task.');
@@ -70,7 +60,6 @@ export const createTask = async (title) => {
  */
 export const updateTask = async (id, updates) => {
   const token = getToken();
-  // Make a PUT request to a specific task's URL (e.g., /api/tasks/123).
   const response = await fetch(`${API_URL}/tasks/${id}`, {
     method: 'PUT',
     headers: {
@@ -80,8 +69,6 @@ export const updateTask = async (id, updates) => {
     body: JSON.stringify(updates),
   });
   if (!response.ok) throw new Error('Failed to update task.');
-  // Many PUT endpoints return a success status without a body.
-  // We return a simple success object to confirm the operation completed.
   return { success: true };
 };
 
@@ -92,23 +79,28 @@ export const updateTask = async (id, updates) => {
  */
 export const deleteTask = async (id) => {
   const token = getToken();
-  // Make a DELETE request to a specific task's URL.
   const response = await fetch(`${API_URL}/tasks/${id}`, {
     method: 'DELETE',
     headers: { 'Authorization': `Bearer ${token}` },
   });
   if (!response.ok) throw new Error('Failed to delete task.');
-  // A successful DELETE request typically returns a 204 No Content status.
-  // We return a success object to signal completion in our application.
   return { success: true };
 };
 
+// --- Auth Functions (Public) ---
+
+/**
+ * Registers a new user. This is a public endpoint and does not require a token.
+ * @param {object} userData - An object containing the user's name, email, and password.
+ * @returns {Promise<object>} A promise that resolves to the new user's data.
+ */
 export const registerUser = async (userData) => {
   const response = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
+  // If the response is not ok, parse the error message from the body for better feedback.
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.error || 'Failed to register');
@@ -116,15 +108,22 @@ export const registerUser = async (userData) => {
   return response.json();
 };
 
+/**
+ * Logs in a user. This is a public endpoint.
+ * @param {object} credentials - An object containing the user's email and password.
+ * @returns {Promise<object>} A promise that resolves to an object containing the auth token.
+ */
 export const loginUser = async (credentials) => {
   const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
+  // Handle potential errors, such as wrong credentials, by parsing the server's response.
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.error || 'Failed to login');
   }
+  // On success, the response body will contain the JWT.
   return response.json();
 };
